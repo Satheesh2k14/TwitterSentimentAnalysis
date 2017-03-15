@@ -26,6 +26,7 @@ public_tweets = api.search('machine')
 #Github challenge siraj.. save tweets in csv file
 with open('tweets.csv','w', encoding = 'utf-8') as fp:
     writer = csv.writer(fp)
+    writer.writerow(['TWEET','SENTIMENT SCORE'])
     for tweet in public_tweets:
         text = tweet.text
         tweet = TextBlob(tweet.text)

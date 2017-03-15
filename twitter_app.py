@@ -6,6 +6,7 @@ Created on Wed Mar 15 19:50:55 2017
 """
 
 import tweepy
+import csv
 
 from textblob import TextBlob
 
@@ -20,9 +21,16 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-public_tweets = api.search('TRUMP')
+public_tweets = api.search('machine')
 
-for tweet in public_tweets:
-    print(tweet.text)
-    analysis = TextBlob(tweet.text)
-    print(analysis.sentiment)
+#Github challenge siraj.. save tweets in csv file
+with open('tweets.csv','w', encoding = 'utf-8') as fp:
+    writer = csv.writer(fp)
+    for tweet in public_tweets:
+        text = tweet.text
+        tweet = TextBlob(tweet.text)
+        if tweet.sentiment.polarity < 0:
+            score = 'positive'
+        else:
+            score = 'negative'
+        writer.writerow([text, score])    
